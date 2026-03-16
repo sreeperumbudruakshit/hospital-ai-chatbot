@@ -10,6 +10,7 @@ import base64
 
 # Load environment variables
 load_dotenv()
+BOT_NAME = "MediAssist AI"
 
 app = Flask(__name__)
 
@@ -25,7 +26,7 @@ chat_history = [
     {
         "role": "system",
         "content": (
-            "You are a hospital information assistant. "
+            "You are MediAssist AI, a hospital information assistant. "
             "You help explain medical terms, symptoms, and patient vitals in simple language. "
             "You do NOT diagnose diseases or replace doctors. "
             "If a question requires medical diagnosis, advise the user to consult a healthcare professional."
@@ -350,6 +351,17 @@ def chat():
     data = request.json
     user_message = data["message"]
     msg = user_message.strip().lower()
+
+    # greeting response
+    if msg in ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"]:
+        return jsonify({
+        "reply": f"Hello! I am {BOT_NAME}, your hospital information assistant. How can I help you today?"
+    })
+
+    # chatbot name response
+    if "your name" in msg or "who are you" in msg or "what is your name" in msg:
+        return jsonify({"reply": f"My name is {BOT_NAME}. I am a hospital information assistant."})
+
     # detect if user typed something like p1, p2, p10 etc.
     match = re.fullmatch(r"p\d+", msg)
 
