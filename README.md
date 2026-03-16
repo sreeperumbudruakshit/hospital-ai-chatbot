@@ -1,4 +1,6 @@
 # 🏥 Hospital AI Chatbot
+Live Demo:
+https://hospital-ai-chatbot.onrender.com
 
 An AI-powered hospital assistant that allows healthcare staff to interact with patient data using natural language queries. The system analyzes patient vitals, retrieves information from datasets, and generates visual insights.
 

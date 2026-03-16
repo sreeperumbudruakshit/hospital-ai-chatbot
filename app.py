@@ -358,6 +358,7 @@ def chat():
         "reply": f"Hello! I am {BOT_NAME}, your hospital information assistant. How can I help you today?"
     })
 
+
     # chatbot name response
     if "your name" in msg or "who are you" in msg or "what is your name" in msg:
         return jsonify({"reply": f"My name is {BOT_NAME}. I am a hospital information assistant."})
