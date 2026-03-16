@@ -130,7 +130,13 @@ async function uploadFile(file) {
       datasetUploaded = true;
       showUploadStatus(`✓ ${file.name} uploaded`, 'success');
       setStatus('Dataset loaded', 'ready');
-      addMessage('ai', `Dataset <strong>${file.name}</strong> loaded successfully! You can now ask me to analyze the data or generate charts.`);
+      addMessage(
+        'ai',
+        `Dataset <strong>${file.name}</strong> loaded successfully!<br>
+        Records: <strong>${data.rows}</strong><br>
+        Columns: <strong>${data.columns.join(", ")}</strong><br><br>
+        You can now ask me to analyze patient vitals or generate bar charts.`
+      );
     } else {
       throw new Error(data.error || 'Upload failed');
     }
@@ -162,7 +168,10 @@ async function sendMessage() {
   const input   = document.getElementById('chatInput');
   const sendBtn = document.getElementById('sendBtn');
   const text    = input.value.trim();
-  if (!text) return;
+  if (!text) {
+  waitingForReply = false;
+  return;
+  }
 
   // Add user message
   addMessage('user', escapeHtml(text));
@@ -171,7 +180,6 @@ async function sendMessage() {
 
   // Disable button + show typing
   sendBtn.disabled = true;
-  input.disabled = true;
   showTyping(true);
   setStatus('Thinking…', 'uploading');
 
@@ -203,7 +211,6 @@ async function sendMessage() {
     setStatus('Error', 'error');
   } finally {
     sendBtn.disabled = false;
-    input.disabled = false;
     waitingForReply = false;
     input.focus();
     }

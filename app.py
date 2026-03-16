@@ -490,7 +490,11 @@ def upload():
     if missing:
         return jsonify({"message": f"Dataset missing columns: {missing}"})
 
-    return jsonify({"message": "Dataset uploaded successfully"})
+    return jsonify({
+    "message": "Dataset uploaded successfully",
+    "rows": len(dataset),
+    "columns": list(dataset.columns)
+    })
 
 
 if __name__ == "__main__":
