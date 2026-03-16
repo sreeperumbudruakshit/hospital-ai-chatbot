@@ -2,7 +2,7 @@
    Hospital AI Assistant — script.js
    Handles: canvas dots, file upload, chat, chart display
    ============================================================ */
-
+let waitingForReply = false;
 /* ── Twinkling Dot Canvas ───────────────────────────────── */
 (function initCanvas() {
   const canvas = document.getElementById('dotCanvas');
@@ -156,6 +156,9 @@ function autoResize(el) {
 }
 
 async function sendMessage() {
+
+  if (waitingForReply) return; // prevents multiple messages
+  waitingForReply = true;
   const input   = document.getElementById('chatInput');
   const sendBtn = document.getElementById('sendBtn');
   const text    = input.value.trim();
@@ -168,6 +171,7 @@ async function sendMessage() {
 
   // Disable button + show typing
   sendBtn.disabled = true;
+  input.disabled = true;
   showTyping(true);
   setStatus('Thinking…', 'uploading');
 
@@ -199,8 +203,10 @@ async function sendMessage() {
     setStatus('Error', 'error');
   } finally {
     sendBtn.disabled = false;
+    input.disabled = false;
+    waitingForReply = false;
     input.focus();
-  }
+    }
 }
 
 
