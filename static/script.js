@@ -126,7 +126,7 @@ async function uploadFile(file) {
     const res  = await fetch('/upload', { method: 'POST', body: formData });
     const data = await res.json();
 
-    if (res.ok) {
+    if (data.rows && data.columns) {
       datasetUploaded = true;
       showUploadStatus(`✓ ${file.name} uploaded`, 'success');
       setStatus('Dataset loaded', 'ready');
